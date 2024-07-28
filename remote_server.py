@@ -1,6 +1,7 @@
 import socket
-import RPi.GPIO as GPIO
-import time
+from gpiozero import RotaryEncoder
+from signal import pause
+
 
 
 # def send_command(host, port, command):
@@ -17,44 +18,14 @@ import time
 PIN_A = 17
 PIN_B = 18
 
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(PIN_A, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setup(PIN_B, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+encoder = RotaryEncoder(PIN_A, PIN_B)
 
-counter = 0
-last_a = GPIO.input(PIN_A)
-last_b = GPIO.input(PIN_B)
+def value_changed():
+    print("Counter:", encoder.steps)
 
-def rotary_callback(channel):
-    global counter, last_a, last_b
-    current_a = GPIO.input(PIN_A)
-    current_b = GPIO.input(PIN_B)
-
-    if current_a != last_a or current_b != last_b:
-        if last_a == 0 and current_a == 1:
-            if current_b == 0:
-                counter -= 1
-            else:
-                counter += 1
-        elif last_a == 1 and current_a == 0:
-            if current_b == 1:
-                counter -= 1
-            else:
-                counter += 1
-
-        print("Counter:", counter)
-
-    last_a = current_a
-    last_b = current_b
-
-GPIO.add_event_detect(PIN_A, GPIO.BOTH, callback=rotary_callback)
-GPIO.add_event_detect(PIN_B, GPIO.BOTH, callback=rotary_callback)
+encoder.when_rotated = value_changed
 
 try:
-    while True:
-        time.sleep(0.1)
+    pause()
 except KeyboardInterrupt:
-    print("Exiting...")
-
-# Cleanup GPIO
-GPIO.cleanup()
+    print("exiting..")
