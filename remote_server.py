@@ -25,14 +25,19 @@ step_counter = 0
 def value_changed():
     global step_counter
     if encoder.steps > 0:
-        send_command(host, port, 'on')
         step_counter += 1
     else:
         step_counter -= 1
-        send_command(host, port, 'off')
-        encoder.steps = 0
-        print("Counter: ", step_counter)
+    encoder.steps = 0
 
+        
+    if step_counter % 2 == 0:
+        if encoder.steps > 0:
+            send_command(host, port, 'off')
+        else:
+            send_command(host, port, 'on')
+            
+    print("Counter: ", step_counter)
 
 encoder.when_rotated = value_changed
 
