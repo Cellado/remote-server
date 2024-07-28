@@ -20,8 +20,17 @@ PIN_B = 27
 
 encoder = RotaryEncoder(PIN_A, PIN_B)
 
+step_counter = 0
+
 def value_changed():
-    print("Counter:", encoder.steps)
+    global step_counter
+    if encoder.steps > 0:
+        step_counter += 1
+    else:
+        step_counter -= 1
+    encoder.steps = 0
+    print("Counter: ", step_counter)
+
 
 encoder.when_rotated = value_changed
 
