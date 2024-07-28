@@ -29,7 +29,7 @@ def value_changed():
     else:
         step_counter -= 1
         
-    if step_counter % 2 == 0:
+    if step_counter % 3 == 0:
         if encoder.steps > 0:
             send_command(host, port, 'off')
         else:
