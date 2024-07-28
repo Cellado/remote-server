@@ -28,8 +28,6 @@ def value_changed():
         step_counter += 1
     else:
         step_counter -= 1
-    encoder.steps = 0
-
         
     if step_counter % 2 == 0:
         if encoder.steps > 0:
@@ -37,6 +35,7 @@ def value_changed():
         else:
             send_command(host, port, 'on')
             
+    encoder.steps = 0            
     print("Counter: ", step_counter)
 
 encoder.when_rotated = value_changed
