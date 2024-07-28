@@ -16,7 +16,7 @@ from signal import pause
 #     port = 5138
 
 PIN_A = 17
-PIN_B = 18
+PIN_B = 27
 
 encoder = RotaryEncoder(PIN_A, PIN_B)
 
