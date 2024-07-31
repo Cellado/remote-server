@@ -2,7 +2,7 @@ import socket
 from gpiozero import RotaryEncoder
 from signal import pause
 
-#testing boot 
+#testing boot 2
 
 def send_command(host, port, command):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
